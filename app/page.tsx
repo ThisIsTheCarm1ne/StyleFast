@@ -2,11 +2,13 @@
 import { useState } from "react";
 import { Inter, Tangerine } from 'next/font/google'
 
-import { useGlobalContext } from "./context/store";
+import { useGlobalContext } from "@/context/store";
 
-import ColorPickerPopup from "./components/colorPickerPopup";
-import ShadowPickerPopup from "./components/shadowPopup";
-import BorderPickerPopup from "./components/borderPopup";
+import ColorPickerPopup from "@/components/colorPickerPopup";
+import ShadowPickerPopup from "@/components/shadowPopup";
+import BorderPickerPopup from "@/components/borderPopup";
+
+import ComponentsShowcase from "@/components/components-showcase";
 
 const tangerine = Tangerine({
   subsets: ['latin'],
@@ -37,16 +39,7 @@ export default function Home() {
     setActivePopup(null);
   };
 
-  const {colors, shadow, border} = useGlobalContext();
-
-  const boxShadowStyle = {
-    boxShadow: `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px ${colors.accent} ${shadow.inset ? 'inset ' : ''}`
-  }
-
-  const borderStyle = {
-    border: `${border.width}px ${border.style} ${colors.accent}`,
-    ...(border.radius > 0 && { borderRadius: `${border.radius}px` }),
-  }
+  const {colors} = useGlobalContext();
 
   return (
     <main className="" style={{color: colors.font, backgroundColor: colors.background}}>
@@ -169,12 +162,7 @@ export default function Home() {
         </div>
         <h1 className="text-7xl mt-10 font-bold">On This Website</h1>
       </div>
-      <div style={{...boxShadowStyle}} className="w-44 flex items-center">
-        This is a "shadowPicker" Test
-      </div>
-      <div style={{...borderStyle}} className="w-44 flex items-center">
-        This is a "borderPicker" Test
-      </div>
+      <ComponentsShowcase />
     </main>
   )
 }

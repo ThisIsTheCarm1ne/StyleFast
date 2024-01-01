@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { useGlobalContext } from "../context/store";
+import { useGlobalContext } from "@/context/store";
 
 const isBackgroundColorDark = (hexColor: string): boolean => {
   const cleanedHex = hexColor.replace(/^#/, '');

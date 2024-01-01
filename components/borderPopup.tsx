@@ -1,5 +1,5 @@
 "use client"
-import { useGlobalContext } from "../context/store";
+import { useGlobalContext } from "@/context/store";
 
 const BorderPickerPopup = ({ onClose }: any) => {
   const { border, setBorder } = useGlobalContext();
