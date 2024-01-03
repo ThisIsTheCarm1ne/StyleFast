@@ -17,11 +17,8 @@ export default function componentsShowcase() {
 
   const {colors, shadow, border} = useGlobalContext();
 
-  const boxShadowStyle = {
-    boxShadow: `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px ${colors.accent} ${shadow.inset ? 'inset ' : ''}`
-  }
-
-  const borderStyle = {
+  const dynamicStyle = {
+    boxShadow: `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px ${colors.accent} ${shadow.inset ? 'inset ' : ''}`,
     border: `${border.width}px ${border.style} ${colors.accent}`,
     ...(border.radius > 0 && { borderRadius: `${border.radius}px` }),
   }
@@ -29,7 +26,7 @@ export default function componentsShowcase() {
   return (
     <section key="1" className="p-8 mt-20">
       <div className="grid grid-cols-3 gap-6">
-        <Card style={{...borderStyle, ...boxShadowStyle}}>
+        <Card style={dynamicStyle}>
           <CardHeader>
             <CardTitle>Card Title</CardTitle>
             <CardDescription>This is a card description.</CardDescription>
@@ -41,7 +38,7 @@ export default function componentsShowcase() {
         </Card>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline"  style={{...borderStyle, ...boxShadowStyle}}>Open</Button>
+            <Button variant="outline"  style={dynamicStyle}>Open</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -52,7 +49,7 @@ export default function componentsShowcase() {
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Card style={{...borderStyle, ...boxShadowStyle}}>
+        <Card style={dynamicStyle}>
           <CardHeader>
             <CardTitle>Input Fields</CardTitle>
           </CardHeader>
@@ -81,7 +78,7 @@ export default function componentsShowcase() {
             </div>
           </CardContent>
         </Card>
-        <Tabs className="w-full border border-gray-200 rounded-lg" defaultValue="tab1" style={{...borderStyle, ...boxShadowStyle}}>
+        <Tabs className="w-full border border-gray-200 rounded-lg" defaultValue="tab1" style={dynamicStyle}>
           <TabsList className="flex gap-2" style={{backgroundColor: colors.secondary}}>
             <TabsTrigger value="tab1">Tab 1</TabsTrigger>
             <TabsTrigger value="tab2">Tab 2</TabsTrigger>
@@ -93,7 +90,7 @@ export default function componentsShowcase() {
             <p>Tab 2 Content</p>
           </TabsContent>
         </Tabs>
-        <Card style={{...borderStyle, ...boxShadowStyle}}>
+        <Card style={dynamicStyle}>
           <CardHeader>
             <CardTitle>Colors Showcase</CardTitle>
           </CardHeader>
@@ -104,7 +101,7 @@ export default function componentsShowcase() {
           </CardContent>
         </Card>
         <Card className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500"
-          style={{...borderStyle, ...boxShadowStyle, background: `linear-gradient(to right, ${colors.primary}, ${colors.secondary})`}}
+          style={{...dynamicStyle, background: `linear-gradient(to right, ${colors.primary}, ${colors.secondary})`}}
         />
       </div>
     </section>

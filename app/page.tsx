@@ -1,14 +1,17 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect, ReactElement } from "react";
 import { Inter, Tangerine } from 'next/font/google'
 
 import { useGlobalContext } from "@/context/store";
 
 import ColorPickerPopup from "@/components/colorPickerPopup";
+import FontPickerPopup from "@/components/fontPopup";
 import ShadowPickerPopup from "@/components/shadowPopup";
 import BorderPickerPopup from "@/components/borderPopup";
 
 import ComponentsShowcase from "@/components/components-showcase";
+import DashboardShowcase from "@/components/dashboard-example";
+import BlogExample from "@/components/blog-example";
 
 const tangerine = Tangerine({
   subsets: ['latin'],
@@ -28,6 +31,26 @@ export default function Home() {
   const [hoverBorder, setHoverBorder] = useState<boolean>(false);
   const [hoverHover, setHoverHover] = useState<boolean>(false);
 
+  // Showcases carousel
+  const [activeComponent, setActiveComponent] = useState<string>('ComponentsShowcase');
+
+  const changeComponent = (componentName: string) => {
+    setActiveComponent(componentName);
+  };
+
+  const renderActiveComponent = (): ReactElement | null => {
+    switch (activeComponent) {
+      case 'ComponentsShowcase':
+        return <ComponentsShowcase />;
+      case 'DashboardShowcase':
+        return <DashboardShowcase />;
+      case 'BlogExample':
+        return <BlogExample />;
+      default:
+        return null;
+    }
+  };
+
   //Popups
   const [activePopup, setActivePopup] = useState<string | null>(null);
 
@@ -39,12 +62,42 @@ export default function Home() {
     setActivePopup(null);
   };
 
-  const {colors} = useGlobalContext();
+  const {colors, shadow, border, fonts} = useGlobalContext();
+
+  const dynamicStyle = {
+    boxShadow: `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px ${colors.accent} ${shadow.inset ? 'inset ' : ''}`,
+    border: `${border.width}px ${border.style} ${colors.accent}`,
+    ...(border.radius > 0 && { borderRadius: `${border.radius}px` }),
+  }
+
+  // Font selector
+  useEffect(() => {
+    // Load the selected header font from Google Fonts
+    const link = document.createElement('link');
+    link.href = `https://fonts.googleapis.com/css?family=${encodeURIComponent(fonts.header)}`;
+    link.rel = 'stylesheet';
+
+    // Load the selected paragraph font from Google Fonts
+    const paragraphLink = document.createElement('link');
+    paragraphLink.href = `https://fonts.googleapis.com/css?family=${encodeURIComponent(fonts.paragraph)}`;
+    paragraphLink.rel = 'stylesheet';
+
+    // Add the link to the head of the document
+    document.head.appendChild(link);
+    document.head.appendChild(paragraphLink);
+
+    // Cleanup: remove the link when the component is unmounted
+    return () => {
+      document.head.removeChild(link);
+      document.head.removeChild(paragraphLink);
+    };
+  }, [fonts.header, fonts.paragraph]);
 
   return (
-    <main className="" style={{color: colors.font, backgroundColor: colors.background}}>
+    <main className="" style={{color: colors.font, backgroundColor: colors.background, fontFamily: fonts.paragraph}}>
       <div className="fixed right-0 top-32 mr-8 z-10 w-32 min-w-min">
         {activePopup === 'color' && <ColorPickerPopup onClose={closePopup}/>}
+        {activePopup === 'font' && <FontPickerPopup onClose={closePopup}/>}
         {activePopup === 'shadow' && <ShadowPickerPopup onClose={closePopup}/>}
         {activePopup === 'border' && <BorderPickerPopup onClose={closePopup}/>}
         {!activePopup && (
@@ -122,7 +175,7 @@ export default function Home() {
         )}
       </div>
       <div className="text-center mt-40">
-        <h1 className="text-7xl mb-10 font-bold">Edit & Live Preview</h1>
+        <h1 className="text-7xl mb-10 font-bold" style={{fontFamily: fonts.header}}>Edit & Live Preview</h1>
         <div className="flex flex-col gap-7 items-center">
           <p
             className={`text-5xl w-min ${hoverColor ? 'hover' : ''} transition-colors duration-150`}
@@ -160,9 +213,32 @@ export default function Home() {
             Hover
           </p>
         </div>
-        <h1 className="text-7xl mt-10 font-bold">On This Website</h1>
+        <h1 className="text-7xl mt-10 font-bold" style={{fontFamily: fonts.header}}>On This Website</h1>
       </div>
-      <ComponentsShowcase />
+      <div>
+        {renderActiveComponent()}
+
+        <div className="">
+          <button
+            onClick={() => changeComponent('ComponentsShowcase')}
+            style={dynamicStyle}
+          >
+            Show Components
+          </button>
+          <button
+            onClick={() => changeComponent('DashboardShowcase')}
+            style={dynamicStyle}
+          >
+            Show Dashboard
+          </button>
+          <button
+            onClick={() => changeComponent('BlogExample')}
+            style={dynamicStyle}
+          >
+            Show Blog
+          </button>
+        </div>
+      </div>
     </main>
   )
 }

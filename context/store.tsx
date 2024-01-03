@@ -24,11 +24,16 @@ type Borders = {
   radius: number,
 }
 
+type Fonts = {
+  header: string,
+  paragraph: string,
+}
+
 interface ContextProps {
   colors: Colors,
   setColors: Dispatch<SetStateAction<Colors>>,
-  font: string,
-  setFont: Dispatch<SetStateAction<string>>,
+  fonts: Fonts,
+  setFonts: Dispatch<SetStateAction<Fonts>>,
   shadow: Shadows,
   setShadow: Dispatch<SetStateAction<Shadows>>,
   border: Borders,
@@ -46,8 +51,11 @@ const GlobalContext = createContext<ContextProps>({
     accent: '#0bf0ff'
   },
   setColors: () => {},
-  font: 'Inter',
-  setFont: (): string => '',
+  fonts: {
+    header: 'Inter',
+    paragraph: 'Inter',
+  },
+  setFonts: () => {},
   shadow: {
     x: 0,
     y: 0,
@@ -74,6 +82,10 @@ export const GlobalContextProvider = ({ children }: any) => {
     secondary: '#ffffff',
     accent: '#0bf0ff',
   });
+  const [fonts, setFonts] = useState<Fonts>({
+    header: 'Inter',
+    paragraph: 'Inter'
+  })
   const [shadow, setShadow] = useState<Shadows>({
     x: 0,
     y: 0,
@@ -87,7 +99,12 @@ export const GlobalContextProvider = ({ children }: any) => {
     radius: 0
   })
   return (
-    <GlobalContext.Provider value={{ colors, setColors, shadow, setShadow, border, setBorder }}>
+    <GlobalContext.Provider value={{
+      colors, setColors,
+      fonts, setFonts,
+      shadow, setShadow,
+      border, setBorder
+    }}>
       {children}
     </GlobalContext.Provider>
   )
