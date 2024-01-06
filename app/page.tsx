@@ -29,14 +29,9 @@ export default function Home() {
   const [hoverFont, setHoverFont] = useState<boolean>(false);
   const [hoverShadow, setHoverShadow] = useState<boolean>(false);
   const [hoverBorder, setHoverBorder] = useState<boolean>(false);
-  const [hoverHover, setHoverHover] = useState<boolean>(false);
 
   // Showcases carousel
   const [activeComponent, setActiveComponent] = useState<string>('ComponentsShowcase');
-
-  const changeComponent = (componentName: string) => {
-    setActiveComponent(componentName);
-  };
 
   const renderActiveComponent = (): ReactElement | null => {
     switch (activeComponent) {
@@ -68,6 +63,11 @@ export default function Home() {
     boxShadow: `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px ${colors.accent} ${shadow.inset ? 'inset ' : ''}`,
     border: `${border.width}px ${border.style} ${colors.accent}`,
     ...(border.radius > 0 && { borderRadius: `${border.radius}px` }),
+  }
+
+  const borderStyle = {
+    border: `${border.width}px ${border.style} ${colors.accent}`,
+    ...(border.radius > 0 && { borderRadius: `${border.radius}px` })
   }
 
   // Font selector
@@ -149,14 +149,6 @@ export default function Home() {
                 <div className={`w-11 h-11 border-2 border-black m-auto mt-3 mb-2 ${hoverBorder ? 'div_border' : ''}`}></div>
                 <p className="text-3xl mb-2">Borders</p>
               </button>
-              <button
-                className={`border-2 border-black rounded ${hoverHover ? 'btn_hover' : ''}`}
-                onMouseEnter={() => setHoverHover(true)} 
-                onMouseLeave={() => setHoverHover(false)} 
-              >
-                <div className={`w-11 h-11 bg-black m-auto mt-3 mb-2 ${hoverHover ? 'div_hover' : ''}`}></div>
-                <p className="text-4xl mb-2">Hover</p>
-              </button>
               <button className="border-2 border-black rounded">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -205,39 +197,41 @@ export default function Home() {
           >
             Borders
           </p>
-          <p
-            className={`text-5xl w-min ${hoverHover ? 'text_hover' : ''}`}
-            onMouseEnter={() => setHoverHover(true)} 
-            onMouseLeave={() => setHoverHover(false)} 
-          >
-            Hover
-          </p>
         </div>
         <h1 className="text-7xl mt-10 font-bold" style={{fontFamily: fonts.header}}>On This Website</h1>
       </div>
-      <div>
-        {renderActiveComponent()}
-
-        <div className="">
-          <button
-            onClick={() => changeComponent('ComponentsShowcase')}
-            style={dynamicStyle}
+      <div className="mt-28">
+        <div
+          className="flex justify-center"
+        >
+          <div 
+            className="w-min flex justify-center gap-10 py-3 px-10"
+            style={{...dynamicStyle, backgroundColor: colors.secondary}}
           >
-            Show Components
-          </button>
-          <button
-            onClick={() => changeComponent('DashboardShowcase')}
-            style={dynamicStyle}
-          >
-            Show Dashboard
-          </button>
-          <button
-            onClick={() => changeComponent('BlogExample')}
-            style={dynamicStyle}
-          >
-            Show Blog
-          </button>
+            <button
+              onClick={() => setActiveComponent('ComponentsShowcase')}
+              className="py-1 px-4 transition-all duration-200"
+              style={activeComponent === 'ComponentsShowcase' ? {backgroundColor: colors.primary, ...borderStyle} : {color: colors.primary}}
+            >
+              Components
+            </button>
+            <button
+              onClick={() => setActiveComponent('DashboardShowcase')}
+              className="py-1 px-4 transition-all duration-200"
+              style={activeComponent === 'DashboardShowcase' ? {backgroundColor: colors.primary, ...borderStyle} : {color: colors.primary}}
+            >
+              Dashboard
+            </button>
+            <button
+              onClick={() => setActiveComponent('BlogExample')}
+              className="py-1 px-4 transition-all duration-200"
+              style={activeComponent === 'BlogExample' ? {backgroundColor: colors.primary, ...borderStyle} : {color: colors.primary}}
+            >
+              Blog
+            </button>
+          </div>
         </div>
+        {renderActiveComponent()}
       </div>
     </main>
   )

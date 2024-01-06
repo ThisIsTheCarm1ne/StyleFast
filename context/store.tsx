@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, Dispatch, SetStateAction, useState } from "react";
+import { createContext, useContext, Dispatch, SetStateAction, useState, useEffect } from "react";
 
 type Colors = {
   font: string,
@@ -75,29 +75,68 @@ const GlobalContext = createContext<ContextProps>({
 });
 
 export const GlobalContextProvider = ({ children }: any) => {
-  const [colors, setColors] = useState<Colors>({
-    font: '#000000',
-    background: '#ffffff',
-    primary: '#ffffff',
-    secondary: '#ffffff',
-    accent: '#0bf0ff',
-  });
-  const [fonts, setFonts] = useState<Fonts>({
-    header: 'Inter',
-    paragraph: 'Inter'
-  })
-  const [shadow, setShadow] = useState<Shadows>({
-    x: 0,
-    y: 0,
-    blur: 0,
-    spread: 0,
-    inset: false
-  })
-  const [border, setBorder] = useState<Borders>({
-    width: 0,
-    style: "none",
-    radius: 0
-  })
+  // Load saved data from localStorage on component mount
+  const storedColors = localStorage.getItem('colors');
+  const initialColors = storedColors
+    ? JSON.parse(storedColors)
+    : {
+        font: '#000000',
+        background: '#ffffff',
+        primary: '#ffffff',
+        secondary: '#ffffff',
+        accent: '#0bf0ff',
+      };
+
+  const storedFonts = localStorage.getItem('fonts');
+  const initialFonts = storedFonts
+    ? JSON.parse(storedFonts)
+    : {
+        header: 'Inter',
+        paragraph: 'Inter',
+      };
+
+  const storedShadow = localStorage.getItem('shadow');
+  const initialShadow = storedShadow
+    ? JSON.parse(storedShadow)
+    : {
+        x: 0,
+        y: 0,
+        blur: 0,
+        spread: 0,
+        inset: false,
+      };
+
+  const storedBorder = localStorage.getItem('border');
+  const initialBorder = storedBorder
+    ? JSON.parse(storedBorder)
+    : {
+        width: 0,
+        style: 'none',
+        radius: 0,
+      };
+
+  const [colors, setColors] = useState(initialColors);
+  const [fonts, setFonts] = useState(initialFonts);
+  const [shadow, setShadow] = useState(initialShadow);
+  const [border, setBorder] = useState(initialBorder);
+
+  // Save data to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('colors', JSON.stringify(colors));
+  }, [colors]);
+
+  useEffect(() => {
+    localStorage.setItem('fonts', JSON.stringify(fonts));
+  }, [fonts]);
+
+  useEffect(() => {
+    localStorage.setItem('shadow', JSON.stringify(shadow));
+  }, [shadow]);
+
+  useEffect(() => {
+    localStorage.setItem('border', JSON.stringify(border));
+  }, [border]);
+
   return (
     <GlobalContext.Provider value={{
       colors, setColors,

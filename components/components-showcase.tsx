@@ -26,7 +26,7 @@ export default function componentsShowcase() {
   return (
     <section key="1" className="p-8 mt-20">
       <div className="grid grid-cols-3 gap-6">
-        <Card style={dynamicStyle}>
+        <Card style={{...dynamicStyle, backgroundColor: colors.secondary}}>
           <CardHeader>
             <CardTitle>Card Title</CardTitle>
             <CardDescription>This is a card description.</CardDescription>
@@ -38,7 +38,7 @@ export default function componentsShowcase() {
         </Card>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline"  style={dynamicStyle}>Open</Button>
+            <Button variant="outline"  style={{...dynamicStyle, backgroundColor: colors.secondary}}>Open</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -49,14 +49,14 @@ export default function componentsShowcase() {
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Card style={dynamicStyle}>
+        <Card style={{...dynamicStyle, backgroundColor: colors.secondary}}>
           <CardHeader>
             <CardTitle>Input Fields</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <Label htmlFor="text-input">Text Input</Label>
-              <Input id="text-input" placeholder="Enter text here" type="text" />
+              <Input id="text-input" placeholder="Enter text here" type="text" style={dynamicStyle}/>
             </div>
             <div className="grid grid-cols-2 gap-4 items-center">
               <div className="space-y-1 flex flex-col items-start">
@@ -78,8 +78,8 @@ export default function componentsShowcase() {
             </div>
           </CardContent>
         </Card>
-        <Tabs className="w-full border border-gray-200 rounded-lg" defaultValue="tab1" style={dynamicStyle}>
-          <TabsList className="flex gap-2" style={{backgroundColor: colors.secondary}}>
+        <Tabs className="w-full border border-gray-200 rounded-lg" defaultValue="tab1" style={{...dynamicStyle, backgroundColor: colors.secondary}}>
+          <TabsList className="flex gap-2" style={{backgroundColor: colors.accent}}>
             <TabsTrigger value="tab1">Tab 1</TabsTrigger>
             <TabsTrigger value="tab2">Tab 2</TabsTrigger>
           </TabsList>
@@ -90,7 +90,7 @@ export default function componentsShowcase() {
             <p>Tab 2 Content</p>
           </TabsContent>
         </Tabs>
-        <Card style={dynamicStyle}>
+        <Card style={{...dynamicStyle, backgroundColor: colors.secondary}}>
           <CardHeader>
             <CardTitle>Colors Showcase</CardTitle>
           </CardHeader>

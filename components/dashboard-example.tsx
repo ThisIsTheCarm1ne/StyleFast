@@ -85,7 +85,7 @@ export default function dashboardExample() {
           </div>
         </header>
         <section className="grid gap-8 mt-8 md:grid-cols-2 lg:grid-cols-4">
-          <Card style={dynamicStyle}>
+          <Card style={{...dynamicStyle, backgroundColor: colors.secondary}}>
             <CardHeader className="flex items-center justify-between">
               <CardTitle
                style={{fontFamily: fonts.header}}
@@ -109,7 +109,7 @@ export default function dashboardExample() {
               </p>
             </CardContent>
           </Card>
-          <Card style={dynamicStyle}>
+          <Card style={{...dynamicStyle, backgroundColor: colors.secondary}}>
             <CardHeader className="flex items-center justify-between">
               <CardTitle
                style={{fontFamily: fonts.header}}
@@ -133,7 +133,7 @@ export default function dashboardExample() {
               </p>
             </CardContent>
           </Card>
-          <Card style={dynamicStyle}>
+          <Card style={{...dynamicStyle, backgroundColor: colors.secondary}}>
             <CardHeader className="flex items-center justify-between">
               <CardTitle
                style={{fontFamily: fonts.header}}
@@ -157,7 +157,7 @@ export default function dashboardExample() {
               </p>
             </CardContent>
           </Card>
-          <Card style={dynamicStyle}>
+          <Card style={{...dynamicStyle, backgroundColor: colors.secondary}}>
             <CardHeader className="flex items-center justify-between">
               <CardTitle
                style={{fontFamily: fonts.header}}
@@ -184,7 +184,7 @@ export default function dashboardExample() {
         </section>
         <section className="mt-8">
           <Card 
-            style={dynamicStyle}
+            style={{...dynamicStyle, backgroundColor: colors.secondary}}
           >
             <Table>
               <TableHeader>
@@ -220,7 +220,7 @@ export default function dashboardExample() {
                     <Button
                       size="sm"
                       variant="outline"
-                      style={dynamicStyle}
+                      style={{...dynamicStyle, backgroundColor: colors.primary}}
                     >
                       Edit
                     </Button>
@@ -242,7 +242,7 @@ export default function dashboardExample() {
                     <Button
                       size="sm"
                       variant="outline"
-                      style={dynamicStyle}
+                      style={{...dynamicStyle, backgroundColor: colors.primary}}
                     >
                       Edit
                     </Button>
@@ -264,7 +264,7 @@ export default function dashboardExample() {
                     <Button
                       size="sm"
                       variant="outline"
-                      style={dynamicStyle}
+                      style={{...dynamicStyle, backgroundColor: colors.primary}}
                     >
                       Edit
                     </Button>
