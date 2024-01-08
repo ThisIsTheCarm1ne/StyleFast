@@ -8,6 +8,7 @@ import ColorPickerPopup from "@/components/colorPickerPopup";
 import FontPickerPopup from "@/components/fontPopup";
 import ShadowPickerPopup from "@/components/shadowPopup";
 import BorderPickerPopup from "@/components/borderPopup";
+import ExportPopup from "@/components/exportPopup";
 
 import ComponentsShowcase from "@/components/components-showcase";
 import DashboardShowcase from "@/components/dashboard-example";
@@ -94,12 +95,13 @@ export default function Home() {
   }, [fonts.header, fonts.paragraph]);
 
   return (
-    <main className="" style={{color: colors.font, backgroundColor: colors.background, fontFamily: fonts.paragraph}}>
+    <main className="w-screen min-h-screen pt-40" style={{color: colors.font, backgroundColor: colors.background, fontFamily: fonts.paragraph}}>
       <div className="fixed right-0 top-32 mr-8 z-10 w-32 min-w-min">
         {activePopup === 'color' && <ColorPickerPopup onClose={closePopup}/>}
         {activePopup === 'font' && <FontPickerPopup onClose={closePopup}/>}
         {activePopup === 'shadow' && <ShadowPickerPopup onClose={closePopup}/>}
         {activePopup === 'border' && <BorderPickerPopup onClose={closePopup}/>}
+        {activePopup === 'export' && <ExportPopup onClose={closePopup}/>}
         {!activePopup && (
           <>
             <div className="flex flex-col gap-2">
@@ -149,7 +151,10 @@ export default function Home() {
                 <div className={`w-11 h-11 border-2 border-black m-auto mt-3 mb-2 ${hoverBorder ? 'div_border' : ''}`}></div>
                 <p className="text-3xl mb-2">Borders</p>
               </button>
-              <button className="border-2 border-black rounded">
+              <button 
+                className="border-2 border-black rounded"
+                onClick={() => handleButtonClick('export')}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -166,7 +171,7 @@ export default function Home() {
           </>
         )}
       </div>
-      <div className="text-center mt-40">
+      <div className="text-center">
         <h1 className="text-7xl mb-10 font-bold" style={{fontFamily: fonts.header}}>Edit & Live Preview</h1>
         <div className="flex flex-col gap-7 items-center">
           <p

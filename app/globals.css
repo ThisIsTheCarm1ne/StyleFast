@@ -47,3 +47,7 @@ body {
   transition-duration: 150ms;
   padding: 0.5rem;
 }
+pre {
+  display: flex;
+  flex-direction: column;
+}

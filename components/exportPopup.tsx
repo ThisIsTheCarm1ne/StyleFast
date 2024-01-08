@@ -1,58 +1,75 @@
 "use client"
-import { useState, useEffect } from 'react';
+import { useRef, RefObject } from "react";
 import { useGlobalContext } from "@/context/store";
 
-const FontPickerPopup = ({ onClose }: any) => {
-  const { fonts, setFonts } = useGlobalContext();
-  const [fontList, setFontList] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+const ExportPopup = ({ onClose }: any) => {
+  const {colors, shadow, border, fonts} = useGlobalContext();
 
-  useEffect(() => {
-    // Fetch the list of available Google Fonts
-    fetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=${process.env.NEXT_PUBLIC_GOOGLE_FONTS_KEY}`)
-      .then(response => response.json())
-      .then(data => {
-        const availableFonts = data.items.map((item: any) => item.family);
-        setFontList(availableFonts);
-      })
-      .catch(error => console.error('Error fetching fonts:', error));
-  }, []);
+  const colorsRef: RefObject<HTMLPreElement> = useRef(null);
+  const shadowsRef: RefObject<HTMLPreElement> = useRef(null);
+  const fontsRef: RefObject<HTMLPreElement> = useRef(null);
+  const borderRef: RefObject<HTMLPreElement> = useRef(null);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+  const copyToClipboard = (ref: RefObject<HTMLPreElement>) => {
+    const textToCopy = ref.current?.innerText;
+    if (textToCopy) {
+      const textarea = document.createElement('textarea');
+      textarea.value = textToCopy;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
   };
 
-  const filteredFonts = fontList.filter(font =>
-    font.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleFontSelection = (selectedFont: string, type: any) => {
-    // Handle the font selection logic and update the state
-    const updatedFonts = { ...fonts, [type]: selectedFont };
-    setFonts(updatedFonts);
-  };
   return (
-    <div className="border-2 rounded border-black flex flex-col">
+    <div className="border-2 rounded border-black flex flex-col bg-white">
       <button onClick={onClose}>Back</button>
-      <input
-        type="text"
-        placeholder="Search Fonts"
-        value={searchTerm}
-        onChange={handleSearchChange}
-      />
-      <ul className='max-h-96 overflow-y-auto'>
-        {filteredFonts.length ?
-          filteredFonts.map(font => (
-            <li key={font} className='flex flex-col'>
-              <p>{font}</p>
-              <button onClick={() => handleFontSelection(font, 'header')}>Set Header</button>
-              <button onClick={() => handleFontSelection(font, 'paragraph')}>Set Paragraph</button>
-            </li>
-          ))
-        : <p>Loading...</p>}
-      </ul>
+      <pre ref={colorsRef}>
+        <code>:root &#123;</code>
+        <code>--fontColor: {colors.font};</code>
+        <code>--backgroundColor: {colors.background};</code>
+        <code>--primaryColor: {colors.primary};</code>
+        <code>--secondaryColor: {colors.secondary};</code>
+        <code>--accentColor: {colors.accent};</code>
+        <code>&#125;</code>
+      </pre>
+      <button onClick={() => copyToClipboard(colorsRef)}>
+        Copy to Clipboard
+      </button>
+      <pre ref={fontsRef}>
+        <code>h1, h2, h3, h4, h5, h6 &#123;</code>
+        <code>  font-family: {fonts.header};</code>
+        <code>&#125;</code>
+        <code>body &#123;</code>
+        <code>  font-family: {fonts.paragraph};</code>
+        <code>&#125;</code>
+      </pre>
+      <button onClick={() => copyToClipboard(fontsRef)}>
+        Copy to Clipboard
+      </button>
+      <pre ref={shadowsRef}>
+        <code>.your_element &#123;</code>
+        <code>  box-shadow: {shadow.x}px {shadow.y}px {shadow.blur}px {shadow.spread}px var(--accentColor) {shadow.inset};</code>
+        <code>&#125;</code>
+      </pre>
+      <button onClick={() => copyToClipboard(shadowsRef)}>
+        Copy to Clipboard
+      </button>
+      <pre ref={borderRef}>
+        <code>.your_element &#123;</code>
+        <code>  border: {border.width}px {border.style} var(--accentColor);</code>
+        {border.radius ? 
+          (<code>  border-radius: {border.radius}px;</code>)
+          : (null)
+        }
+        <code>&#125;</code>
+      </pre>
+      <button onClick={() => copyToClipboard(borderRef)}>
+        Copy to Clipboard
+      </button>
     </div>
   );
 };
 
-export default FontPickerPopup;
+export default ExportPopup;
