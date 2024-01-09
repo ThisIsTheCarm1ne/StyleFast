@@ -6,6 +6,11 @@ const FontPickerPopup = ({ onClose }: any) => {
   const { fonts, setFonts } = useGlobalContext();
   const [fontList, setFontList] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [expandedFont, setExpandedFont] = useState<string>();
+
+  const toggleExpansion = (font: string) => {
+    setExpandedFont((prevExpandedFont: string) => (prevExpandedFont === font ? null : font));
+  };
 
   useEffect(() => {
     // Fetch the list of available Google Fonts
@@ -40,13 +45,32 @@ const FontPickerPopup = ({ onClose }: any) => {
         value={searchTerm}
         onChange={handleSearchChange}
       />
-      <ul className='max-h-96 overflow-y-auto'>
+      <ul className='max-h-96 overflow-y-auto flex flex-col gap-1'>
         {filteredFonts.length ?
           filteredFonts.map(font => (
             <li key={font} className='flex flex-col'>
-              <p>{font}</p>
-              <button onClick={() => handleFontSelection(font, 'header')}>Set Header</button>
-              <button onClick={() => handleFontSelection(font, 'paragraph')}>Set Paragraph</button>
+              <button
+                onClick={() => toggleExpansion(font)}
+                className='tracking-wider text-xl'
+              >
+                {font}
+              </button>
+              {expandedFont === font && (
+                <div className='flex flex-col'>
+                  <button
+                    onClick={() => handleFontSelection(font, 'header')}
+                    className='uppercase border-b border-1 border-grey-200'
+                  >
+                    Headers
+                  </button>
+                  <button
+                    onClick={() => handleFontSelection(font, 'paragraph')}
+                    className='lowercase'
+                  >
+                    Paragraphs
+                  </button>
+                </div>
+              )}
             </li>
           ))
         : <p>Loading...</p>}
