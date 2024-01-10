@@ -10,6 +10,5 @@ This website will allow you to dynamically change:
 - Fonts
 - Shadows
 - Borders
-- Hover?
 
 And export it to css

@@ -14,6 +14,8 @@ import ComponentsShowcase from "@/components/components-showcase";
 import DashboardShowcase from "@/components/dashboard-example";
 import BlogExample from "@/components/blog-example";
 
+import Footer from "@/components/footer";
+
 const tangerine = Tangerine({
   subsets: ['latin'],
   weight: '400'
@@ -94,6 +96,7 @@ export default function Home() {
     };
   }, [fonts.header, fonts.paragraph]);
 
+  console.log(colors);
   return (
     <main className="w-screen min-h-screen pt-40" style={{color: colors.font, backgroundColor: colors.background, fontFamily: fonts.paragraph}}>
       <div className="fixed right-0 top-32 mr-8 z-10 w-32 min-w-min">
@@ -238,6 +241,7 @@ export default function Home() {
         </div>
         {renderActiveComponent()}
       </div>
+      <Footer />
     </main>
   )
 }

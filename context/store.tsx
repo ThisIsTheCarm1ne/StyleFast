@@ -46,9 +46,9 @@ const GlobalContext = createContext<ContextProps>({
   colors: {
     font: '#000000',
     background: '#ffffff',
-    primary: '#ffffff',
+    primary: '#0ea900',
     secondary: '#ffffff',
-    accent: '#0bf0ff'
+    accent: '#000000'
   },
   setColors: () => {},
   fonts: {
@@ -82,9 +82,9 @@ export const GlobalContextProvider = ({ children }: any) => {
     : {
         font: '#000000',
         background: '#ffffff',
-        primary: '#ffffff',
+        primary: '#0ea900',
         secondary: '#ffffff',
-        accent: '#0bf0ff',
+        accent: '#000000'
       };
 
   const storedFonts = localStorage.getItem('fonts');
@@ -99,8 +99,8 @@ export const GlobalContextProvider = ({ children }: any) => {
   const initialShadow = storedShadow
     ? JSON.parse(storedShadow)
     : {
-        x: 0,
-        y: 0,
+        x: 5,
+        y: 5,
         blur: 0,
         spread: 0,
         inset: false,
@@ -110,9 +110,9 @@ export const GlobalContextProvider = ({ children }: any) => {
   const initialBorder = storedBorder
     ? JSON.parse(storedBorder)
     : {
-        width: 0,
-        style: 'none',
-        radius: 0,
+        width: 2,
+        style: 'solid',
+        radius: 10,
       };
 
   const [colors, setColors] = useState(initialColors);
